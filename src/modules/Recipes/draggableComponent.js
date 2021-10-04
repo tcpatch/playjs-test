@@ -130,6 +130,18 @@ const DraggableComponent = (displayText, dayMenu, setDayMenu) => {
         y: event.touches[0].pageY - h - event.touches[0].target.parentNode.parentNode.parentNode.offsetTop - event.touches[0].target.parentNode.clientHeight - offTop})
     event.preventDefault();
   }
+
+  const onClick = (event) => {
+    if (pressed) {
+      setPressed(false);
+    } else {
+      setPressed(true);
+      const currentRecipe = event.target.innerText;
+      const dmenu = {...dayMenu};
+      dmenu['selectedRecipe'] = currentRecipe;
+      setDayMenu(dmenu);
+    }
+  }
   
 
   return (
@@ -141,9 +153,11 @@ const DraggableComponent = (displayText, dayMenu, setDayMenu) => {
       onTouchEnd={ onTouchEnd }
       onTouchCancel={ () => setPressed(false) }
       onTouchMove={ onTouchMove }
-      onMouseMove={ onMouseMove }
-      onMouseDown={ () => setPressed(true) }
-      onMouseUp={ () => setPressed(false) }>
+      onClick={ onClick }
+      // onMouseMove={ onMouseMove }
+      // onMouseDown={ () => setPressed(true) }
+      // onMouseUp={ () => setPressed(false) }
+      >
       { pressed ? "Dragging..." : displayName }
     </div>
   )
